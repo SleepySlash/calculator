@@ -75,7 +75,7 @@ func convertInputExpression(exp InputExpression) (interface{},error){
 	if err!=nil{
 		return nil,err
 	}
-	operands :=createNewMathExpression(int1,int2,exp.Operator)
+	operands := createNewMathExpression(int1,int2,exp.Operator)
 
 	return operands,nil
 }
@@ -93,8 +93,8 @@ func checkInputExpression(exp *InputExpression) (bool,error){
 }
 
 // creating a new expression with integer type operands
-func createNewMathExpression(a, b int64, c string) *expression{
-	return &expression{
+func createNewMathExpression(a, b int64, c string) expression{
+	return expression{
 		opr1 : a,
 		opr2 : b,
 		operator : c,
@@ -131,6 +131,11 @@ func theMather(op1,op2 int64,opr string) (string,error){
 	case "/":
 		if op2 == 0 {
 			return "", errors.New("cannot divide by zero")
+		}
+
+		if op1%op2 == 0 {
+			res := fmt.Sprintf("%d", op1/op2)
+			return res, nil
 		}
 		res := fmt.Sprintf("%.5f", float64(op1)/float64(op2))
 		return res, nil
